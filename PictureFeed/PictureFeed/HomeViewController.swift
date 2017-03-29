@@ -29,6 +29,10 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
 
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
 
     func presentImagePickerWith(sourceType: UIImagePickerControllerSourceType) {
         self.imagePicker.delegate = self
@@ -61,6 +65,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBAction func postButtonPressed(_ sender: Any) {
         if let image = self.imageView.image {
             let newPost = Post(image: image)
+            print(newPost)
             CloudKit.shared.save(post: newPost, completion: { (success) in
                 
                 if success {
