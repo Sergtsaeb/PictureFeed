@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C05C31D21E89BC6600DEEEC1 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C05C31D11E89BC6600DEEEC1 /* CloudKit.framework */; };
+		C0A398BB1E8B25D800A9DD0E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0A398BA1E8B25D800A9DD0E /* CloudKit.framework */; };
+		C0A398BD1E8C239000A9DD0E /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A398BC1E8C239000A9DD0E /* GalleryViewController.swift */; };
+		C0A398BF1E8C277C00A9DD0E /* GalleryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A398BE1E8C277C00A9DD0E /* GalleryCell.swift */; };
+		C0A398C11E8C37B100A9DD0E /* GalleryCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A398C01E8C37B100A9DD0E /* GalleryCollectionViewLayout.swift */; };
 		C0C5825C1E897F1300CCF5DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C5825B1E897F1300CCF5DF /* AppDelegate.swift */; };
 		C0C5825E1E897F1300CCF5DF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C5825D1E897F1300CCF5DF /* ViewController.swift */; };
 		C0C582611E897F1300CCF5DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0C5825F1E897F1300CCF5DF /* Main.storyboard */; };
@@ -22,7 +25,10 @@
 
 /* Begin PBXFileReference section */
 		C05C31CF1E89BC6300DEEEC1 /* PictureFeed.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PictureFeed.entitlements; sourceTree = "<group>"; };
-		C05C31D11E89BC6600DEEEC1 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		C0A398BA1E8B25D800A9DD0E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		C0A398BC1E8C239000A9DD0E /* GalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
+		C0A398BE1E8C277C00A9DD0E /* GalleryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryCell.swift; sourceTree = "<group>"; };
+		C0A398C01E8C37B100A9DD0E /* GalleryCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewLayout.swift; sourceTree = "<group>"; };
 		C0C582581E897F1300CCF5DF /* PictureFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PictureFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0C5825B1E897F1300CCF5DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C0C5825D1E897F1300CCF5DF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -42,7 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C05C31D21E89BC6600DEEEC1 /* CloudKit.framework in Frameworks */,
+				C0A398BB1E8B25D800A9DD0E /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,7 +58,7 @@
 		C05C31D01E89BC6600DEEEC1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C05C31D11E89BC6600DEEEC1 /* CloudKit.framework */,
+				C0A398BA1E8B25D800A9DD0E /* CloudKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -92,8 +98,11 @@
 		C0F6C2FA1E8AE73800DCD6C3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				C0A398C01E8C37B100A9DD0E /* GalleryCollectionViewLayout.swift */,
 				C0C5825B1E897F1300CCF5DF /* AppDelegate.swift */,
 				C0C5826F1E898D3F00CCF5DF /* HomeViewController.swift */,
+				C0A398BC1E8C239000A9DD0E /* GalleryViewController.swift */,
+				C0A398BE1E8C277C00A9DD0E /* GalleryCell.swift */,
 				C0C5826D1E89850700CCF5DF /* CloudKit.swift */,
 			);
 			name = Controllers;
@@ -141,11 +150,23 @@
 				TargetAttributes = {
 					C0C582571E897F1300CCF5DF = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = KAQ72YLS2D;
+						DevelopmentTeam = P42QZ5498J;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 0;
+							};
+							com.apple.Keychain = {
+								enabled = 0;
+							};
 							com.apple.Push = {
 								enabled = 1;
+							};
+							com.apple.Siri = {
+								enabled = 0;
+							};
+							com.apple.VPNLite = {
+								enabled = 0;
 							};
 							com.apple.iCloud = {
 								enabled = 1;
@@ -193,8 +214,11 @@
 				C0F6C2F91E8AE71300DCD6C3 /* Filters.swift in Sources */,
 				C0C5825E1E897F1300CCF5DF /* ViewController.swift in Sources */,
 				C0C5826E1E89850700CCF5DF /* CloudKit.swift in Sources */,
+				C0A398C11E8C37B100A9DD0E /* GalleryCollectionViewLayout.swift in Sources */,
+				C0A398BF1E8C277C00A9DD0E /* GalleryCell.swift in Sources */,
 				C0C5825C1E897F1300CCF5DF /* AppDelegate.swift in Sources */,
 				C0F6C2F71E8AD39E00DCD6C3 /* UIExtensions.swift in Sources */,
+				C0A398BD1E8C239000A9DD0E /* GalleryViewController.swift in Sources */,
 				C0C582701E898D3F00CCF5DF /* HomeViewController.swift in Sources */,
 				C0F6C2F51E8AD0F000DCD6C3 /* Post.swift in Sources */,
 			);
@@ -320,10 +344,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PictureFeed/PictureFeed.entitlements;
-				DEVELOPMENT_TEAM = KAQ72YLS2D;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = P42QZ5498J;
 				INFOPLIST_FILE = PictureFeed/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sergtsaeb.PictureFeed;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sergtsaeb-PictureFeed";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -334,10 +360,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PictureFeed/PictureFeed.entitlements;
-				DEVELOPMENT_TEAM = KAQ72YLS2D;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = P42QZ5498J;
 				INFOPLIST_FILE = PictureFeed/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sergtsaeb.PictureFeed;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sergtsaeb-PictureFeed";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

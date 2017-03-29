@@ -11,9 +11,12 @@ import CloudKit
 
 class Post {
     let image: UIImage
+   // var date: NSDate
     
     init(image: UIImage) {
+        //date: NSDate)
         self.image = image
+      //  self.date = date
     }
 }
 
