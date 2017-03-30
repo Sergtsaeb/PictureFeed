@@ -10,16 +10,19 @@ import UIKit
 
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    @IBOutlet weak var imageView: UIImageView!
+    let filterNames = [FilterName.vintage, FilterName.blackAndWhite, FilterName.chrome, FilterName.crystalize, FilterName.noir]
     
     let imagePicker = UIImagePickerController()
-
-    @IBOutlet weak var filterButtonTopConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var filterButtonTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var postButtonBottomContraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.collectionView.dataSource = self
         
         postButtonBottomContraint.constant = 8
         filterButtonTopConstraint.constant = 8
@@ -27,7 +30,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         UIView.animate(withDuration: 0.4) {
             self.view.layoutIfNeeded()
         }
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -46,11 +48,11 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        
         if let originalImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.imageView.image = originalImage
             imageView.contentMode = .scaleAspectFill
             Filters.originalImage = originalImage
+            self.collectionView.reloadData()
         }
         
         dismiss(animated: true, completion: nil)
@@ -67,24 +69,18 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             let newPost = Post(image: image, creationDate: nil)
             print(newPost)
             CloudKit.shared.save(post: newPost, completion: { (success) in
-                
                 if success {
                     print("Saved post successfully to CloudKit!")
                 } else {
                     print("We did not successfully save to CloudKit..")
                 }
-                
-                
             })
         }
     }
     
     @IBAction func filterButtonPressed(_ sender: Any) {
-        
         guard let image = self.imageView.image else { return }
-        
         let alertController = UIAlertController(title: "Filter", message: "Please select a filter", preferredStyle: .alert)
-        
         
         let blackAndWhiteAction = UIAlertAction(title: "Black & White", style: .default) { (action) in
             
@@ -112,7 +108,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
         
         let crystalizeAction = UIAlertAction(title: "Crystalize", style: .default) { (action) in
-            
             Filters.filter(name: .crystalize, image: image, completion: { (filteredImage) in
                 self.imageView.image = filteredImage
             })
@@ -148,16 +143,37 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
-        
-        
+
         actionSheetController.addAction(cameraAction)
-        
         actionSheetController.addAction(photoAction)
         actionSheetController.addAction(cancelAction)
         
         self.present(actionSheetController, animated: true, completion: nil)
         
     }
+}
+
+//MARK: UICollectionView DataSource
+extension HomeViewController: UICollectionViewDataSource {
     
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let filterCell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterCell.identifier, for: indexPath) as! FilterCell
+        
+        guard let originalImage = Filters.originalImage else { return filterCell }
+        
+        guard let resizedImage = originalImage.resize(size: CGSize(width: 150, height: 150)) else { return filterCell }
+        
+        let filterName = self.filterNames[indexPath.row]
+        
+        Filters.filter(name: filterName, image: resizedImage) { (filteredImage) in
+            filterCell.imageView.image = filteredImage
+        }
+        
+        return filterCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return filterNames.count
+    }
     
 }

@@ -19,7 +19,8 @@ enum FilterName: String {
 typealias FilterCompletion = (UIImage?) -> ()
 
 class Filters {
-    static var originalImage = UIImage()
+    static var originalImage: UIImage?
+    
     var context: CIContext
     
     static let shared = Filters()
@@ -63,7 +64,6 @@ class Filters {
             return 
         }
         
-        //self.filter(name: <#T##FilterName#>, image: <#T##UIImage#>, completion: <#T##FilterCompletion##FilterCompletion##(UIImage?) -> ()#>)
     }
  
  */
