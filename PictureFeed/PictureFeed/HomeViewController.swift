@@ -64,7 +64,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     @IBAction func postButtonPressed(_ sender: Any) {
         if let image = self.imageView.image {
-            let newPost = Post(image: image)
+            let newPost = Post(image: image, creationDate: nil)
             print(newPost)
             CloudKit.shared.save(post: newPost, completion: { (success) in
                 
@@ -85,7 +85,9 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         let alertController = UIAlertController(title: "Filter", message: "Please select a filter", preferredStyle: .alert)
         
+        
         let blackAndWhiteAction = UIAlertAction(title: "Black & White", style: .default) { (action) in
+            
             Filters.filter(name: .blackAndWhite, image: image, completion: { (filteredImage) in
                 self.imageView.image = filteredImage
             })
@@ -110,6 +112,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
         
         let crystalizeAction = UIAlertAction(title: "Crystalize", style: .default) { (action) in
+            
             Filters.filter(name: .crystalize, image: image, completion: { (filteredImage) in
                 self.imageView.image = filteredImage
             })

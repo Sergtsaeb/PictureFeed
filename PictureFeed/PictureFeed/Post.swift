@@ -11,12 +11,11 @@ import CloudKit
 
 class Post {
     let image: UIImage
-   // var date: NSDate
+    let creationDate: Date?
     
-    init(image: UIImage) {
-        //date: NSDate)
+    init(image: UIImage, creationDate: Date?) {
         self.image = image
-      //  self.date = date
+        self.creationDate = creationDate
     }
 }
 
@@ -41,7 +40,7 @@ extension Post {
         } catch {
             throw PostError.writingDataToDisk
         }
-        
+     
     }
     
 }
