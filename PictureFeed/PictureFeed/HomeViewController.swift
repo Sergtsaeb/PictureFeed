@@ -7,12 +7,15 @@
 //
 
 import UIKit
+import Social
 
-class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class HomeViewController: UIViewController, UINavigationControllerDelegate, UICollectionViewDelegate {
     
     let filterNames = [FilterName.vintage, FilterName.blackAndWhite, FilterName.chrome, FilterName.crystalize, FilterName.noir]
     
     let imagePicker = UIImagePickerController()
+    
+    @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var imageView: UIImageView!
@@ -23,12 +26,26 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         super.viewDidLoad()
         
         self.collectionView.dataSource = self
+        self.collectionView.delegate = self
         
         postButtonBottomContraint.constant = 8
         filterButtonTopConstraint.constant = 8
         
         UIView.animate(withDuration: 0.4) {
             self.view.layoutIfNeeded()
+        }
+        
+        setupGalleryDelegate()
+    }
+    
+    func setupGalleryDelegate() {
+        if let tabBarController = self.tabBarController {
+            guard let viewControllers = tabBarController.viewControllers else { return }
+            
+            guard let galleryController = viewControllers[1] as? GalleryViewController else { return }
+            
+            galleryController.delegate = self
+            
         }
     }
     
@@ -40,23 +57,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         self.imagePicker.delegate = self
         self.imagePicker.sourceType = sourceType
         self.present(self.imagePicker, animated: true, completion: nil)
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        if let originalImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            self.imageView.image = originalImage
-            imageView.contentMode = .scaleAspectFill
-            Filters.originalImage = originalImage
-            self.collectionView.reloadData()
-        }
-        
-        dismiss(animated: true, completion: nil)
-        print("Info: \(info)")
     }
     
     @IBAction func imageTapped(_ sender: Any) {
@@ -77,9 +77,32 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             })
         }
     }
+    //
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard let originalImage = Filters.originalImage else { fatalError("No Original Image for filter")}
+        let filterName = self.filterNames[indexPath.row]
+        Filters.filter(name: filterName, image: originalImage) { (filteredImage) in
+            self.imageView.image = filteredImage
+        }
+        
+    }
     
     @IBAction func filterButtonPressed(_ sender: Any) {
         guard let image = self.imageView.image else { return }
+        
+        if self.collectionViewHeightConstraint.constant == 0 {
+            self.collectionViewHeightConstraint.constant = 150
+        } else {
+            self.collectionViewHeightConstraint.constant = 0
+        }
+        
+        UIView.animate(withDuration: 0.5) { 
+            self.view.layoutIfNeeded()
+        }
+        
+        /*
+        
         let alertController = UIAlertController(title: "Filter", message: "Please select a filter", preferredStyle: .alert)
         
         let blackAndWhiteAction = UIAlertAction(title: "Black & White", style: .default) { (action) in
@@ -129,7 +152,22 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         
         self.present(alertController, animated: true, completion: nil)
+        */
     }
+    
+    
+    @IBAction func userLongPressed(_ sender: UILongPressGestureRecognizer) {
+        
+        if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeTwitter) {
+            
+            guard let composeController = SLComposeViewController(forServiceType: SLServiceTypeTwitter) else { return
+            }
+            
+            composeController.add(self.imageView.image)
+            self.present(composeController, animated: true, completion: nil)
+        }
+}
+    
     
     func presentActionSheet() {
         let actionSheetController = UIAlertController(title: "Source", message: "Please Select Source Type", preferredStyle: .actionSheet)
@@ -144,9 +182,18 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
 
-        actionSheetController.addAction(cameraAction)
-        actionSheetController.addAction(photoAction)
-        actionSheetController.addAction(cancelAction)
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            actionSheetController.addAction(cameraAction)
+        }
+        
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            actionSheetController.addAction(photoAction)
+        }
+        
+        if UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.pad {
+            actionSheetController.addAction(cancelAction)
+        }
         
         self.present(actionSheetController, animated: true, completion: nil)
         
@@ -157,6 +204,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let filterCell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterCell.identifier, for: indexPath) as! FilterCell
         
         guard let originalImage = Filters.originalImage else { return filterCell }
@@ -176,4 +224,31 @@ extension HomeViewController: UICollectionViewDataSource {
         return filterNames.count
     }
     
+}
+
+extension HomeViewController: GalleryViewControllerDelegate {
+    func galleryController(didSelect image: UIImage) {
+        self.imageView.image = image
+        
+        self.tabBarController?.selectedIndex = 0
+    }
+}
+
+extension HomeViewController: UIImagePickerControllerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        if let originalImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            self.imageView.image = originalImage
+            imageView.contentMode = .scaleAspectFill
+            Filters.originalImage = originalImage
+            self.collectionView.reloadData()
+        }
+        
+        dismiss(animated: true, completion: nil)
+        print("Info: \(info)")
+    }
 }
