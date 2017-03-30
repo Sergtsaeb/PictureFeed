@@ -68,22 +68,18 @@ class Filters {
  
  */
     
-     class func filter(name: FilterName, image: UIImage, completion: @escaping FilterCompletion) {
+    class func filter(name: FilterName, image: UIImage, completion: @escaping FilterCompletion) {
         OperationQueue().addOperation {
-            
             guard let filter = CIFilter(name: name.rawValue) else { fatalError("Failed to create CIFilter") }
             
             let coreImage = CIImage(image: image)
             filter.setValue(coreImage, forKey: kCIInputImageKey)
             
-   
-            
             //Get final image from using GPU
             guard let outputImage = filter.outputImage else {fatalError("Failed to get output image from Filter.") }
             
-            if let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
+            if let cgImage = Filters.shared.context.createCGImage(outputImage, from: outputImage.extent) {
                 let finalImage = UIImage(cgImage: cgImage)
-                
                 OperationQueue.main.addOperation {
                     completion(finalImage)
                 }
