@@ -66,8 +66,9 @@
 		C0A398C41E8D759C00A9DD0E /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C0A398BE1E8C277C00A9DD0E /* GalleryCell.swift */,
 				C0C5825F1E897F1300CCF5DF /* Main.storyboard */,
+				C0A398C21E8D758800A9DD0E /* FilterCell.swift */,
+				C0A398BE1E8C277C00A9DD0E /* GalleryCell.swift */,
 				C0C5825B1E897F1300CCF5DF /* AppDelegate.swift */,
 			);
 			name = View;
@@ -96,7 +97,6 @@
 				C05C31CF1E89BC6300DEEEC1 /* PictureFeed.entitlements */,
 				C0F6C2FA1E8AE73800DCD6C3 /* Controllers */,
 				C0F6C2FB1E8AE73C00DCD6C3 /* Model */,
-				C0A398C21E8D758800A9DD0E /* FilterCell.swift */,
 				C0A398C41E8D759C00A9DD0E /* View */,
 				C0C582621E897F1300CCF5DF /* Assets.xcassets */,
 				C0C582641E897F1300CCF5DF /* LaunchScreen.storyboard */,
