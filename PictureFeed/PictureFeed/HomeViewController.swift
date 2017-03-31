@@ -9,9 +9,11 @@
 import UIKit
 import Social
 
-class HomeViewController: UIViewController, UINavigationControllerDelegate, UICollectionViewDelegate {
+class HomeViewController: UIViewController, UINavigationControllerDelegate {
     
     let filterNames = [FilterName.vintage, FilterName.blackAndWhite, FilterName.chrome, FilterName.crystalize, FilterName.noir]
+    
+    let stringNames = ["Vintage", "Black & White", "Chrome", "Crystalize", "Noir"]
     
     let imagePicker = UIImagePickerController()
     
@@ -27,13 +29,6 @@ class HomeViewController: UIViewController, UINavigationControllerDelegate, UICo
         
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
-        
-        postButtonBottomContraint.constant = 8
-        filterButtonTopConstraint.constant = 8
-        
-        UIView.animate(withDuration: 0.4) {
-            self.view.layoutIfNeeded()
-        }
         
         setupGalleryDelegate()
     }
@@ -51,12 +46,23 @@ class HomeViewController: UIViewController, UINavigationControllerDelegate, UICo
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        postButtonBottomContraint.constant = 8
+        filterButtonTopConstraint.constant = 8
+        
+        UIView.animate(withDuration: 0.4) {
+            self.view.layoutIfNeeded()
+        }
+        
+        self.collectionView.reloadData()
     }
 
     func presentImagePickerWith(sourceType: UIImagePickerControllerSourceType) {
+        
         self.imagePicker.delegate = self
         self.imagePicker.sourceType = sourceType
         self.present(self.imagePicker, animated: true, completion: nil)
+        self.imagePicker.allowsEditing = true
     }
     
     @IBAction func imageTapped(_ sender: Any) {
@@ -77,16 +83,7 @@ class HomeViewController: UIViewController, UINavigationControllerDelegate, UICo
             })
         }
     }
-    //
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        guard let originalImage = Filters.originalImage else { fatalError("No Original Image for filter")}
-        let filterName = self.filterNames[indexPath.row]
-        Filters.filter(name: filterName, image: originalImage) { (filteredImage) in
-            self.imageView.image = filteredImage
-        }
-        
-    }
+   
     
     @IBAction func filterButtonPressed(_ sender: Any) {
         guard let image = self.imageView.image else { return }
@@ -213,6 +210,10 @@ extension HomeViewController: UICollectionViewDataSource {
         
         let filterName = self.filterNames[indexPath.row]
         
+        // Filter Label Names
+        let stringName = self.stringNames[indexPath.row]
+        filterCell.filterLabel.text = stringName
+        
         Filters.filter(name: filterName, image: resizedImage) { (filteredImage) in
             filterCell.imageView.image = filteredImage
         }
@@ -227,14 +228,27 @@ extension HomeViewController: UICollectionViewDataSource {
 }
 
 extension HomeViewController: GalleryViewControllerDelegate {
+    
     func galleryController(didSelect image: UIImage) {
         self.imageView.image = image
-        
+        Filters.originalImage = image
         self.tabBarController?.selectedIndex = 0
     }
 }
 
+extension HomeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard let originalImage = Filters.originalImage else { fatalError("No Original Image for filter")}
+        let filterName = self.filterNames[indexPath.row]
+        Filters.filter(name: filterName, image: originalImage) { (filteredImage) in
+            self.imageView.image = filteredImage
+        }
+    }
+}
+
 extension HomeViewController: UIImagePickerControllerDelegate {
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
     }

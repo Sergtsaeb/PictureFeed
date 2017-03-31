@@ -72,6 +72,7 @@ class GalleryViewController: UIViewController {
 
 // MARK: UICollectionViewDataSource Extension
 extension GalleryViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GalleryCell.identifier, for: indexPath) as! GalleryCell
@@ -86,9 +87,7 @@ extension GalleryViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let delegate = self.delegate else { return }
-        
         let selectedPost = self.allPosts[indexPath.row]
-        
         delegate.galleryController(didSelect: selectedPost.image)
     }
     

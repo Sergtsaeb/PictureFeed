@@ -24,7 +24,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AbW-Ze-8Ye">
-                                <rect key="frame" x="46.5" y="-146.5" width="281" height="30"/>
+                                <rect key="frame" x="47" y="-147" width="281" height="30"/>
                                 <color key="backgroundColor" red="0.35294117650000001" green="0.73333333329999995" blue="0.70980392160000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="POST">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -34,7 +34,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G1c-K9-UEU">
-                                <rect key="frame" x="46.5" y="783.5" width="281" height="30"/>
+                                <rect key="frame" x="47" y="784" width="281" height="30"/>
                                 <color key="backgroundColor" red="0.5450980392" green="0.4549019608" blue="0.82745098039999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="FILTER">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -43,7 +43,7 @@
                                     <action selector="filterButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6D4-rl-sYL"/>
                                 </connections>
                             </button>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="initialImage" translatesAutoresizingMaskIntoConstraints="NO" id="aaE-sU-rQV">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aaE-sU-rQV">
                                 <rect key="frame" x="47" y="56" width="281" height="500"/>
                                 <gestureRecognizers/>
                                 <connections>
@@ -70,20 +70,24 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wIp-WO-W0i"/>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bNp-ci-gal" userLabel="Filter Label">
-                                                    <rect key="frame" x="-188" y="0.0" width="375" height="0.0"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bNp-ci-gal" userLabel="Filter Label">
+                                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="20.5"/>
+                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
                                             </subviews>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="bNp-ci-gal" firstAttribute="leading" secondItem="INh-H6-9dt" secondAttribute="leading" id="6zJ-WW-yaI"/>
+                                            <constraint firstItem="bNp-ci-gal" firstAttribute="top" secondItem="INh-H6-9dt" secondAttribute="top" id="Fp2-lJ-5D7"/>
                                             <constraint firstAttribute="bottom" secondItem="wIp-WO-W0i" secondAttribute="bottom" id="G5f-fl-PLn"/>
                                             <constraint firstItem="wIp-WO-W0i" firstAttribute="leading" secondItem="INh-H6-9dt" secondAttribute="leading" id="TSE-Tz-Zdb"/>
                                             <constraint firstAttribute="trailing" secondItem="wIp-WO-W0i" secondAttribute="trailing" id="cAe-0A-eyH"/>
                                             <constraint firstItem="wIp-WO-W0i" firstAttribute="top" secondItem="INh-H6-9dt" secondAttribute="top" id="ee5-tG-cuV"/>
+                                            <constraint firstItem="bNp-ci-gal" firstAttribute="width" secondItem="INh-H6-9dt" secondAttribute="width" id="pY4-Bo-APN"/>
+                                            <constraint firstAttribute="trailing" secondItem="bNp-ci-gal" secondAttribute="trailing" id="wBd-X0-j5f"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="filterLabel" destination="bNp-ci-gal" id="QqM-zG-Shu"/>
@@ -93,7 +97,6 @@
                                 </cells>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="TdI-AI-Elx" secondAttribute="trailing" id="1Xo-pV-RY5"/>
                             <constraint firstItem="TdI-AI-Elx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4jC-x4-Hli"/>
@@ -243,7 +246,4 @@
             <point key="canvasLocation" x="978.39999999999998" y="473.6131934032984"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="initialImage" width="144" height="256"/>
-    </resources>
 </document>

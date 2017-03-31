@@ -11,11 +11,7 @@ import UIKit
 class FilterCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
-    
     @IBOutlet weak var filterLabel: UILabel!
-    
-    var originalImage : UIImage?
-    
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -23,5 +19,9 @@ class FilterCell: UICollectionViewCell {
         self.imageView.image = nil
         self.filterLabel.text = nil
     }
+    
+    
+    
+    
 }
 
